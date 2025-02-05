@@ -251,6 +251,35 @@
       transform: translateY(-3px);
     }
     
+    /* “我在聽” 區塊樣式 */
+    .music-player {
+      margin-bottom: 30px;
+    }
+    .music-note {
+      text-align: center;
+      font-size: 0.9em;
+      color: var(--secondary-color);
+      margin-top: 10px;
+    }
+    
+    /* “我的產品” 區塊樣式 */
+    #products table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    #products table, #products th, #products td {
+      border: 1px solid #ddd;
+    }
+    #products th, #products td {
+      padding: 10px;
+      text-align: left;
+    }
+    #products p {
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+    
     /* 頁腳 */
     footer {
       background-color: var(--footer-background);
@@ -477,8 +506,10 @@
       <nav>
         <ul class="nav-menu">
           <li><a href="#about">關於我</a></li>
+          <li><a href="#music">我在聽</a></li>
           <li><a href="#tech-stack">技術庫</a></li>
           <li><a href="#projects">我的專案</a></li>
+          <li><a href="#products">我的產品</a></li>
           <li><a href="#contact">聯絡我</a></li>
           <li>
             <label class="theme-switch" aria-label="切換到暗黑模式">
@@ -513,7 +544,22 @@
       <p id="about-text" class="typing"></p>
     </section>
     
-    <!-- 技術庫 -->
+    <!-- 我在聽：嵌入 Apple Music 播放器 -->
+    <section id="music" class="content-section">
+      <h2>我在聽 <span class="music-note">(Apple Music 提供播放器服務)</span></h2>
+      <p>以下是我近期喜歡的三首歌曲：</p>
+      <div class="music-player">
+        <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/album/%E9%A3%9B%E6%A9%9F%E5%A0%B4%E7%9A%8410-30-live/917203187?i=917203192"></iframe>
+      </div>
+      <div class="music-player">
+        <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/album/mothers-broom-from-kikis-delivery-service/1680459073?i=1680459428"></iframe>
+      </div>
+      <div class="music-player">
+        <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/album/style/1440935467?i=1440935812"></iframe>
+      </div>
+    </section>
+    
+    <!-- 我的技術庫 -->
     <section id="tech-stack" class="content-section">
       <h2>我的技術庫</h2>
       <div class="tech-grid">
@@ -586,6 +632,42 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+    
+    <!-- 我的產品 -->
+    <section id="products" class="content-section">
+      <h2>我的產品</h2>
+      <p>
+        <strong>Harrison's 大语言模型API接入服务</strong><br>
+        我們提供一站式的 API 接入解決方案，助您快速整合各大語言模型。服務涵蓋：
+      </p>
+      <ul style="margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
+        <li>高性能與低延遲的接入體驗</li>
+        <li>安全、穩定、易於擴展的架構設計</li>
+        <li>支持主流語言模型產品，如下方列表</li>
+      </ul>
+      <button id="toggle-products" class="cta-button">展開產品</button>
+      <div id="products-table-container" style="display: none;">
+        <table>
+          <thead>
+            <tr>
+              <th>產品名稱</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>ChatGPT-4o</td></tr>
+            <tr><td>ChatGPT-4o-mini</td></tr>
+            <tr><td>ChatGPT-o1</td></tr>
+            <tr><td>ChatGPT-o3-mini</td></tr>
+            <tr><td>ChatGPT-o3-mini-high</td></tr>
+            <tr><td>DallE</td></tr>
+            <tr><td>Claude 3.5 sonnet</td></tr>
+            <tr><td>Claude 3.5 haiku</td></tr>
+            <tr><td>Claude 3.0 opus</td></tr>
+            <tr><td>Sora</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
     
@@ -746,6 +828,18 @@
       }
       
       typeWriter();
+    });
+    
+    // 我的產品區塊：點擊按鈕展開/收起產品列表
+    document.getElementById('toggle-products').addEventListener('click', function() {
+      const container = document.getElementById('products-table-container');
+      if (container.style.display === "none" || container.style.display === "") {
+        container.style.display = "block";
+        this.textContent = "收起產品";
+      } else {
+        container.style.display = "none";
+        this.textContent = "展開產品";
+      }
     });
   </script>
 </body>
