@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Harrison 的個人網站</title>
   <meta name="description" content="Harrison 的個人網站，展示他的技術能力、專案經驗以及對 C++ 的熱情。" />
-  <meta name="keywords" content="Harrison, 個人網站, 軟體開發, C++, 技術庫, 專案展示" />
+  <meta name="keywords" content="Harrison, 個人網站, 軟體開發, C++, 技術庫, 專案" />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto&display=swap" rel="stylesheet" />
-  <!-- Devicon & Font Awesome -->
+  <!-- Google Fonts: 使用 Noto Sans TC 作為正文字體，Noto Serif TC 作為標題字體 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet" />
+  <!-- Devicon 與 Font Awesome -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
+
   <style>
-    /* 全局變量與配色設定 */
+    /* 全局變數與配色方案 */
     :root {
       --primary-color: #28a745;
       --secondary-color: #218838;
@@ -26,25 +26,37 @@
       --footer-background: #ffffff;
     }
     body.dark-theme {
-      --background-color: #1A1A1A;
-      --text-color: #CCCCCC;
-      --header-background: #1A1A1A;
-      --section-background: #1E1E1E;
-      --footer-background: #1E1E1E;
+      --background-color: #121212;
+      --text-color: #e0e0e0;
+      --header-background: #1e1e1e;
+      --section-background: #1a1a1a;
+      --footer-background: #1e1e1e;
     }
-    
-    /* 基本重置與字體 */
+
+    /* 基本重置與字體設定 */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Noto Sans TC', sans-serif;
       background-color: var(--background-color);
       color: var(--text-color);
       line-height: 1.6;
       transition: background-color 0.5s, color 0.5s;
-      scroll-behavior: smooth;
+      /* 取消 CSS 原生平滑滾動，由自訂函數處理 */
     }
     
-    /* 頂部導航 */
+    /* 為每個內容區塊添加 scroll-margin-top 以避免被固定 header 遮擋，並設定淡入效果 */
+    .content-section {
+      scroll-margin-top: 80px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .content-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* 頂部導覽 */
     header {
       position: fixed;
       top: 0;
@@ -52,34 +64,21 @@
       background: var(--header-background);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       z-index: 1000;
+      padding: 15px 0;
     }
     .nav-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 15px 30px;
+      padding: 0 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     .logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.8em;
-      font-weight: 600;
+      font-family: 'Noto Serif TC', serif;
+      font-size: 2em;
+      font-weight: 700;
       color: var(--primary-color);
-    }
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-    .hamburger .bar {
-      width: 25px;
-      height: 3px;
-      background-color: var(--text-color);
-      transition: background-color 0.3s;
     }
     nav ul.nav-menu {
       display: flex;
@@ -143,7 +142,7 @@
       transform: translateX(26px);
     }
     
-    /* 主內容區塊 */
+    /* 主要內容區塊 */
     .content-section {
       background-color: var(--section-background);
       padding: 100px 40px;
@@ -153,7 +152,7 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
     .content-section h2 {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Noto Serif TC', serif;
       font-size: 2.8em;
       color: var(--primary-color);
       margin-bottom: 40px;
@@ -161,7 +160,7 @@
     }
     .content-section p { margin-bottom: 20px; }
     
-    /* 英雄區域 */
+    /* 首頁英雄區 */
     .hero {
       position: relative;
       height: 100vh;
@@ -218,7 +217,7 @@
       text-align: left;
     }
     .hero-text h1 {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Noto Serif TC', serif;
       font-size: 3.5em;
       margin-bottom: 20px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -228,7 +227,6 @@
       margin-bottom: 30px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     }
-    /* View My Github 按鈕 */
     .cta-button {
       display: inline-flex;
       align-items: center;
@@ -251,7 +249,7 @@
       transform: translateY(-3px);
     }
     
-    /* “我在聽” 區塊樣式 */
+    /* 我在聽區塊 */
     .music-player {
       margin-bottom: 30px;
     }
@@ -262,25 +260,203 @@
       margin-top: 10px;
     }
     
-    /* “我的產品” 區塊樣式 */
-    #products table {
+    /* 專案區塊：反轉卡片效果 */
+    .projects-grid {
+      display: grid;
+      gap: 30px;
+      justify-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+    .project-card {
+      perspective: 1200px;
+      width: 140px;
+      height: 140px;
+    }
+    .card-inner {
+      position: relative;
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
+      height: 100%;
+      transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-style: preserve-3d;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-    #products table, #products th, #products td {
-      border: 1px solid #ddd;
+    .card-inner.is-flipped {
+      transform: rotateY(180deg);
     }
-    #products th, #products td {
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border: 1px solid #eaeaea;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
       padding: 10px;
-      text-align: left;
+      overflow: hidden;
+      transition: opacity 0.4s ease;
     }
-    #products p {
-      margin-bottom: 15px;
-      line-height: 1.8;
+    .card-front {
+      z-index: 2;
+    }
+    .card-front i {
+      font-size: 3.5em;
+      color: var(--primary-color);
+    }
+    .card-front h3 {
+      margin-top: 10px;
+      font-size: 1em;
+      color: var(--primary-color);
+    }
+    .card-back {
+      transform: rotateY(180deg);
+      text-align: center;
+      font-size: 0.85em;
+      line-height: 1.4;
+      color: var(--text-color);
+      word-break: break-word;
+      overflow: auto;
+      padding: 8px;
+    }
+    body.dark-theme .card-back {
+      background-color: #333;
+      color: #e0e0e0;
+      border-color: #444;
+    }
+    .card-back h3 { margin-bottom: 5px; }
+    .card-back p { margin-bottom: 10px; }
+    .flip-back {
+      padding: 5px 10px;
+      background: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8em;
     }
     
-    /* 頁腳 */
+    /* 技術庫區塊：滑入動畫 */
+    .tech-item {
+      background: #fff;
+      border: 1px solid #eaeaea;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+    .tech-item.animate {
+      animation: slideInLeft 0.8s ease forwards;
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .tech-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      justify-items: center;
+    }
+    .tech-grid .tech-item.animate:nth-child(1) { animation-delay: 0.2s; }
+    .tech-grid .tech-item.animate:nth-child(2) { animation-delay: 0.4s; }
+    .tech-grid .tech-item.animate:nth-child(3) { animation-delay: 0.6s; }
+    .tech-grid .tech-item.animate:nth-child(4) { animation-delay: 0.8s; }
+    .tech-grid .tech-item.animate:nth-child(5) { animation-delay: 1s; }
+    .tech-item i {
+      font-size: 3em;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    .tech-item span {
+      font-size: 0.9em;
+      color: var(--text-color);
+    }
+    
+    /* 產品區塊：以卡片網格方式呈現，並加入展開/收合動畫 */
+    #products p { margin-bottom: 20px; line-height: 1.8; }
+    #toggle-products {
+      margin-bottom: 20px;
+    }
+    /* 初始狀態：隱藏，使用 max-height 與 opacity 過渡 */
+    #products-container {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, opacity 0.5s ease;
+    }
+    /* 加入 expanded class 時展開 */
+    #products-container.expanded {
+      max-height: 1000px;
+      opacity: 1;
+    }
+    .products-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    .product-item {
+      padding: 15px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    body.dark-theme .product-item {
+      background: #2a2a2a;
+      border-color: #444;
+      color: #e0e0e0;
+    }
+    
+    /* 聯絡我區塊 */
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .contact-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background-color: #fff;
+      border: 1px solid #eaeaea;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    .contact-links a:hover {
+      transform: translateY(-5px);
+      background-color: rgba(40,167,69,0.3);
+    }
+    
+    /* 關於我區塊打字動畫 */
+    #about-text {
+      overflow: hidden;
+      white-space: pre-wrap;
+      border-right: .15em solid var(--primary-color);
+    }
+    @keyframes caret {
+      from, to { border-color: transparent; }
+      50% { border-color: var(--primary-color); }
+    }
+    #about-text.typing::after {
+      content: "";
+      animation: caret 0.75s step-end infinite;
+    }
+    
+    /* 頁尾 */
     footer {
       background-color: var(--footer-background);
       padding: 30px;
@@ -315,194 +491,13 @@
       background-color: var(--secondary-color);
       transform: scale(1.1);
     }
-    
-    /* =======================
-         卡片翻轉效果 - 專案區塊
-         ======================= */
-    .projects-grid {
-      display: grid;
-      gap: 30px;
-      justify-items: center;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    }
-    .project-card {
-      perspective: 1000px;
-      width: 140px;
-      height: 140px;
-    }
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      cursor: pointer;
-    }
-    /* 翻轉時同時放大卡牌，避免文字溢出 */
-    .card-inner.is-flipped {
-      transform: rotateY(180deg) scale(1.3);
-    }
-    .card-front, .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border: 1px solid #eaeaea;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #fff;
-      padding: 10px;
-    }
-    .card-front i {
-      font-size: 3.5em;
-      color: var(--primary-color);
-    }
-    .card-front h3 {
-      margin-top: 10px;
-      font-size: 1em;
-      color: var(--primary-color);
-    }
-    .card-back {
-      transform: rotateY(180deg);
-      text-align: center;
-      font-size: 0.9em;
-      line-height: 1.4;
-      color: var(--text-color);
-      /* 防止文字溢出 */
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-    .card-back h3 { margin-bottom: 5px; }
-    .card-back p { margin-bottom: 10px; }
-    .flip-back {
-      padding: 5px 10px;
-      background: var(--primary-color);
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.8em;
-    }
-    
-    /* 技術庫部分：左側滑入動畫 */
-    .tech-item {
-      background: #fff;
-      border: 1px solid #eaeaea;
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      opacity: 0;
-      transform: translateX(-100px);
-    }
-    .tech-item.animate {
-      animation: slideInLeft 0.8s ease forwards;
-    }
-    @keyframes slideInLeft {
-      from { opacity: 0; transform: translateX(-100px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    .tech-grid {
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      justify-items: center;
-    }
-    /* nth-child 延時效果 */
-    .tech-grid .tech-item.animate:nth-child(1) { animation-delay: 0.2s; }
-    .tech-grid .tech-item.animate:nth-child(2) { animation-delay: 0.4s; }
-    .tech-grid .tech-item.animate:nth-child(3) { animation-delay: 0.6s; }
-    .tech-grid .tech-item.animate:nth-child(4) { animation-delay: 0.8s; }
-    .tech-grid .tech-item.animate:nth-child(5) { animation-delay: 1s; }
-    .tech-item i {
-      font-size: 3em;
-      color: var(--primary-color);
-      margin-bottom: 10px;
-    }
-    .tech-item span {
-      font-size: 0.9em;
-      color: var(--text-color);
-    }
-    
-    /* 聯絡我部分 */
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .contact-links a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 60px;
-      background-color: #fff;
-      border: 1px solid #eaeaea;
-      border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s, background-color 0.3s;
-    }
-    .contact-links a:hover {
-      transform: translateY(-5px);
-      background-color: rgba(40,167,69,0.3);
-    }
-    
-    /* 鍵入動畫：針對關於我部分 */
-    #about-text {
-      overflow: hidden;
-      white-space: pre-wrap;
-      border-right: .15em solid var(--primary-color);
-      /* 假設打字速度，後面JS會填充內容 */
-    }
-    @keyframes caret {
-      from, to { border-color: transparent; }
-      50% { border-color: var(--primary-color); }
-    }
-    #about-text.typing::after {
-      content: "";
-      animation: caret 0.75s step-end infinite;
-    }
-    
-    /* 響應式調整 */
-    @media (max-width: 768px) {
-      .nav-container { flex-direction: row; justify-content: space-between; }
-      .hamburger { display: flex; }
-      nav ul.nav-menu {
-        position: fixed;
-        top: 60px;
-        right: 0;
-        background: var(--header-background);
-        flex-direction: column;
-        width: 200px;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        padding: 15px;
-        border: 1px solid #eaeaea;
-        border-radius: 0 0 10px 10px;
-        z-index: 999;
-      }
-      nav ul.nav-menu.nav-active { transform: translateX(0); }
-      nav ul.nav-menu li { margin: 15px 0; }
-      .project-card { width: 120px; height: 120px; }
-      .card-front i { font-size: 3em; }
-      .card-front h3 { font-size: 0.9em; }
-      .project-detail-content { max-width: 95%; }
-    }
   </style>
 </head>
 <body>
-  <!-- 頂部導航 -->
+  <!-- 頂部導覽 -->
   <header>
     <div class="nav-container">
       <div class="logo">Harrison</div>
-      <button class="hamburger" aria-label="開啟選單">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
       <nav>
         <ul class="nav-menu">
           <li><a href="#about">關於我</a></li>
@@ -512,7 +507,7 @@
           <li><a href="#products">我的產品</a></li>
           <li><a href="#contact">聯絡我</a></li>
           <li>
-            <label class="theme-switch" aria-label="切換到暗黑模式">
+            <label class="theme-switch" aria-label="切換至暗黑模式">
               <input type="checkbox" id="theme-toggle" aria-checked="false" />
               <span class="slider"></span>
             </label>
@@ -522,17 +517,17 @@
     </div>
   </header>
   
-  <!-- 主內容區塊 -->
+  <!-- 主要內容 -->
   <main>
-    <!-- 英雄區域 -->
-    <section class="hero">
+    <!-- 首頁英雄區 -->
+    <section class="hero content-section visible">
       <div class="hero-content">
         <img src="profile.png" alt="Harrison 的照片" class="hero-photo" loading="lazy" />
         <div class="hero-text">
           <h1>你好，我是 Harrison</h1>
-          <p>一名熱愛編程的軟體開發者，致力於創造高效且易用的應用程序。</p>
+          <p>一位熱愛程式開發、專注於打造高效易用應用程式的開發者。</p>
           <a href="https://github.com/hrs-y" class="cta-button" target="_blank" rel="noopener noreferrer">
-            <img src="github.png" alt="GitHub" /> View My Github
+            <img src="github.png" alt="GitHub 標誌" /> 查看我的 Github
           </a>
         </div>
       </div>
@@ -544,9 +539,9 @@
       <p id="about-text" class="typing"></p>
     </section>
     
-    <!-- 我在聽：嵌入 Apple Music 播放器 -->
+    <!-- 我在聽 -->
     <section id="music" class="content-section">
-      <h2>我在聽 <span class="music-note">(Apple Music 提供播放器服務)</span></h2>
+      <h2>我在聽 <span class="music-note">(由 Apple Music 提供播放器)</span></h2>
       <p>以下是我近期喜歡的三首歌曲：</p>
       <div class="music-player">
         <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/album/%E9%A3%9B%E6%A9%9F%E5%A0%B4%E7%9A%8410-30-live/917203187?i=917203192"></iframe>
@@ -559,9 +554,9 @@
       </div>
     </section>
     
-    <!-- 我的技術庫 -->
+    <!-- 技術庫 -->
     <section id="tech-stack" class="content-section">
-      <h2>我的技術庫</h2>
+      <h2>技術庫</h2>
       <div class="tech-grid">
         <div class="tech-item">
           <i class="devicon-cplusplus-plain colored" title="C++"></i>
@@ -586,12 +581,12 @@
       </div>
     </section>
     
-    <!-- 我的專案：卡片翻轉效果 -->
+    <!-- 我的專案 -->
     <section id="projects" class="content-section">
       <h2>我的專案</h2>
       <div class="projects-grid">
         <!-- 個人網站專案 -->
-        <div class="project-card" data-title="個人網站" data-detail="這是我目前正在使用的個人網站，透過 HTML5 與 CSS3 實現多種動畫效果，搭配 JavaScript 交互設計。">
+        <div class="project-card">
           <div class="card-inner">
             <div class="card-front">
               <i class="devicon-html5-plain colored" title="個人網站"></i>
@@ -599,13 +594,13 @@
             </div>
             <div class="card-back">
               <h3>個人網站</h3>
-              <p>透過 HTML5、CSS3 及 JavaScript 展示我的技能與專案經驗，內容豐富且動態效果多樣。</p>
+              <p>透過 HTML5、CSS3 與 JavaScript 展示我的技能與專案經驗，動態效果豐富。</p>
               <button class="flip-back">返回</button>
             </div>
           </div>
         </div>
-        <!-- 我的 Blog 專案 -->
-        <div class="project-card" data-title="我的 Blog" data-detail="我的個人博客正在開發中，計劃分享技術學習心得與開發經驗，內容將涵蓋最新技術與實際應用。">
+        <!-- Blog 專案 -->
+        <div class="project-card">
           <div class="card-inner">
             <div class="card-front">
               <i class="devicon-wordpress-plain colored" title="Blog"></i>
@@ -613,21 +608,21 @@
             </div>
             <div class="card-back">
               <h3>我的 Blog</h3>
-              <p>分享技術心得與開發經驗，探索前沿技術與創新思維。</p>
+              <p>分享技術心得與開發經驗，內容豐富且持續更新中。</p>
               <button class="flip-back">返回</button>
             </div>
           </div>
         </div>
         <!-- Windows APP 專案 -->
-        <div class="project-card" data-title="我的 Windows APP" data-detail="我正在構思一款有趣且實用的 Windows 應用程序，專案正處於概念驗證階段，未來將加入更多創新功能。">
+        <div class="project-card">
           <div class="card-inner">
             <div class="card-front">
-              <i class="devicon-csharp-plain colored" title="C#"></i>
-              <h3>我的 Windows APP</h3>
+              <i class="devicon-csharp-plain colored" title="Windows APP"></i>
+              <h3>Windows APP</h3>
             </div>
             <div class="card-back">
-              <h3>我的 Windows APP</h3>
-              <p>專案正處於概念驗證階段，將不斷完善以實現更豐富的功能和更好的用戶體驗。</p>
+              <h3>Windows APP</h3>
+              <p>專案正處於概念驗證階段，未來將持續加入更多功能。</p>
               <button class="flip-back">返回</button>
             </div>
           </div>
@@ -635,39 +630,32 @@
       </div>
     </section>
     
-    <!-- 我的產品 -->
+    <!-- 我的產品：展開/收合動畫 -->
     <section id="products" class="content-section">
       <h2>我的產品</h2>
       <p>
-        <strong>Harrison's 大语言模型API接入服务</strong><br>
-        我們提供一站式的 API 接入解決方案，助您快速整合各大語言模型。服務涵蓋：
+        <strong>Harrison 的大語言模型 API 接入服務</strong><br>
+        我們提供一站式 API 接入解決方案，助您快速整合主要語言模型。服務內容包括：
       </p>
       <ul style="margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
-        <li>高性能與低延遲的接入體驗</li>
-        <li>安全、穩定、易於擴展的架構設計</li>
-        <li>支持主流語言模型產品，如下方列表</li>
+        <li>高效能、低延遲的接入體驗</li>
+        <li>安全、穩定且易於擴展的架構設計</li>
+        <li>支援多款主流語言模型產品</li>
       </ul>
       <button id="toggle-products" class="cta-button">展開產品</button>
-      <div id="products-table-container" style="display: none;">
-        <table>
-          <thead>
-            <tr>
-              <th>產品名稱</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>ChatGPT-4o</td></tr>
-            <tr><td>ChatGPT-4o-mini</td></tr>
-            <tr><td>ChatGPT-o1</td></tr>
-            <tr><td>ChatGPT-o3-mini</td></tr>
-            <tr><td>ChatGPT-o3-mini-high</td></tr>
-            <tr><td>DallE</td></tr>
-            <tr><td>Claude 3.5 sonnet</td></tr>
-            <tr><td>Claude 3.5 haiku</td></tr>
-            <tr><td>Claude 3.0 opus</td></tr>
-            <tr><td>Sora</td></tr>
-          </tbody>
-        </table>
+      <div id="products-container">
+        <div class="products-grid">
+          <div class="product-item">ChatGPT-4o</div>
+          <div class="product-item">ChatGPT-4o-mini</div>
+          <div class="product-item">ChatGPT-o1</div>
+          <div class="product-item">ChatGPT-o3-mini</div>
+          <div class="product-item">ChatGPT-o3-mini-high</div>
+          <div class="product-item">DallE</div>
+          <div class="product-item">Claude 3.5 sonnet</div>
+          <div class="product-item">Claude 3.5 haiku</div>
+          <div class="product-item">Claude 3.0 opus</div>
+          <div class="product-item">Sora</div>
+        </div>
       </div>
     </section>
     
@@ -675,7 +663,7 @@
     <section id="contact" class="content-section">
       <h2>聯絡我</h2>
       <div class="contact-links">
-        <a href="https://github.com/hrs-y" target="_blank" rel="noopener noreferrer" aria-label="訪問我的 GitHub">
+        <a href="https://github.com/hrs-y" target="_blank" rel="noopener noreferrer" aria-label="造訪我的 GitHub">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="var(--primary-color)" aria-hidden="true">
             <path d="M12 0C5.372 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 
             0-.285-.01-1.04-.015-2.04-3.338.725-4.042-1.61-4.042-1.61C4.422 17.07 3.633 16.7 3.633 16.7c-1.087-.744 
@@ -688,7 +676,7 @@
             24 12c0-6.627-5.373-12-12-12z"/>
           </svg>
         </a>
-        <a href="https://x.com/HarrisonHao_" target="_blank" rel="noopener noreferrer" aria-label="訪問我的 X (Twitter)">
+        <a href="https://x.com/HarrisonHao_" target="_blank" rel="noopener noreferrer" aria-label="造訪我的 X (Twitter)">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="var(--primary-color)" aria-hidden="true">
             <path d="M23.954 4.569c-.885.392-1.83.656-2.825.775 
             1.014-.611 1.794-1.574 2.163-2.723-.949.555-2.005.959-3.127 
@@ -710,18 +698,63 @@
     </section>
   </main>
   
-  <!-- 頁腳 -->
+  <!-- 頁尾 -->
   <footer>
     <p>© 2025 Harrison. All rights reserved.</p>
-    <p class="credits">*本頁面由 Harrison 和 ChatGPT 呈現</p>
+    <p class="credits">*本頁面由 Harrison 與 ChatGPT 呈現</p>
   </footer>
   
   <!-- 返回頂部按鈕 -->
-  <button id="back-to-top" aria-label="回到頂部">
+  <button id="back-to-top" aria-label="返回頂部">
     <i class="fas fa-chevron-up"></i>
   </button>
   
   <script>
+    /* 自訂平滑滾動函數 */
+    function smoothScroll(target, duration) {
+      const start = window.pageYOffset;
+      const end = target.getBoundingClientRect().top;
+      let startTime = null;
+      
+      function easeInOutQuad(t) {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      }
+      
+      function animateScroll(currentTime) {
+        if (!startTime) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        const ease = easeInOutQuad(progress);
+        window.scrollTo(0, start + end * ease);
+        if (timeElapsed < duration) requestAnimationFrame(animateScroll);
+      }
+      requestAnimationFrame(animateScroll);
+    }
+    
+    // 為所有導覽連結使用自訂平滑滾動
+    document.querySelectorAll('nav ul.nav-menu li a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        if (targetSection) {
+          smoothScroll(targetSection, 800);
+        }
+      });
+    });
+    
+    // 為每個內容區塊加入淡入動畫效果
+    const sections = document.querySelectorAll('.content-section');
+    const sectionObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(section => sectionObserver.observe(section));
+    
     // 主題切換功能
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
@@ -730,47 +763,25 @@
       body.classList.add('dark-theme');
       themeToggle.checked = true;
       themeToggle.setAttribute('aria-checked', 'true');
-      themeToggle.parentElement.setAttribute('aria-label', '切換到亮色模式');
+      themeToggle.parentElement.setAttribute('aria-label', '切換至亮色模式');
     } else {
       body.classList.remove('dark-theme');
       themeToggle.checked = false;
       themeToggle.setAttribute('aria-checked', 'false');
-      themeToggle.parentElement.setAttribute('aria-label', '切換到暗黑模式');
+      themeToggle.parentElement.setAttribute('aria-label', '切換至暗黑模式');
     }
     themeToggle.addEventListener('change', () => {
       if (themeToggle.checked) {
         body.classList.add('dark-theme');
         localStorage.setItem('theme', 'dark-theme');
         themeToggle.setAttribute('aria-checked', 'true');
-        themeToggle.parentElement.setAttribute('aria-label', '切換到亮色模式');
+        themeToggle.parentElement.setAttribute('aria-label', '切換至亮色模式');
       } else {
         body.classList.remove('dark-theme');
         localStorage.removeItem('theme');
         themeToggle.setAttribute('aria-checked', 'false');
-        themeToggle.parentElement.setAttribute('aria-label', '切換到暗黑模式');
+        themeToggle.parentElement.setAttribute('aria-label', '切換至暗黑模式');
       }
-    });
-    
-    // 漢堡選單切換
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('nav ul.nav-menu');
-    hamburger.addEventListener('click', () => {
-      navMenu.classList.toggle('nav-active');
-    });
-    
-    // 導覽連結平滑滾動及行動版選單關閉
-    document.querySelectorAll('nav ul.nav-menu li a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: 'smooth' });
-        }
-        if (window.innerWidth <= 768) {
-          navMenu.classList.remove('nav-active');
-        }
-      });
     });
     
     // 返回頂部按鈕
@@ -779,17 +790,16 @@
       backToTopBtn.style.display = window.pageYOffset > 300 ? 'flex' : 'none';
     });
     backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      smoothScroll(document.body, 800);
     });
     
-    // 卡片翻轉效果：點擊翻轉顯示詳細內容
+    // 專案卡片翻轉效果
     document.querySelectorAll('.project-card .card-inner').forEach(card => {
       card.addEventListener('click', function(e) {
-        if(e.target.classList.contains('flip-back')) return;
+        if (e.target.classList.contains('flip-back')) return;
         this.classList.toggle('is-flipped');
       });
     });
-    // 返回按鈕：取消翻轉
     document.querySelectorAll('.flip-back').forEach(btn => {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -797,9 +807,9 @@
       });
     });
     
-    // 使用 IntersectionObserver 觸發技術庫項目的滑入動畫
+    // 技術庫項目滑入動畫
     const techItems = document.querySelectorAll('.tech-item');
-    const observer = new IntersectionObserver((entries, obs) => {
+    const techObserver = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate');
@@ -807,14 +817,14 @@
         }
       });
     }, { threshold: 0.5 });
-    techItems.forEach(item => observer.observe(item));
+    techItems.forEach(item => techObserver.observe(item));
     
-    // 鍵入動畫：針對關於我部分
+    // 關於我區塊打字動畫
     document.addEventListener('DOMContentLoaded', () => {
       const aboutTextElement = document.getElementById('about-text');
-      const fullText = "你好！我是 Harrison，一名熱愛編程的開發者，專注於 C++ 並不斷探索更高效、更優雅的程式設計方式。\n\n我喜歡深入了解底層技術與演算法，無論是記憶體管理、多執行緒編程，還是最新的 C++ 標準，我都持續學習並實踐。\n\n此外，我熱衷於參與開源社區，分享我的學習心得和專案經驗。這個個人網站正是我的展示平台，期待與同樣熱愛技術的你交流與成長！";
+      const fullText = "你好！我是 Harrison，一位熱愛程式開發、專注於追求高效且優雅程式設計的開發者。\n\n我喜歡探索底層技術、多執行緒編程以及最新的 C++ 標準，持續學習並在實際專案中應用這些知識。\n\n此外，我也熱衷於參與開源社群，與志同道合的夥伴們分享技術心得與專案經驗。這個個人網站正是我的展示平台，期待與您交流！";
       let index = 0;
-      const speed = 50; // 每個字符的打字速度 (毫秒)
+      const speed = 50; // 每個字元的打字速度（毫秒）
       
       function typeWriter() {
         if (index < fullText.length) {
@@ -822,7 +832,6 @@
           index++;
           setTimeout(typeWriter, speed);
         } else {
-          // 打字結束後移除右側光標
           aboutTextElement.classList.remove('typing');
         }
       }
@@ -830,15 +839,15 @@
       typeWriter();
     });
     
-    // 我的產品區塊：點擊按鈕展開/收起產品列表
+    // 我的產品區塊：展開/收合動畫
     document.getElementById('toggle-products').addEventListener('click', function() {
-      const container = document.getElementById('products-table-container');
-      if (container.style.display === "none" || container.style.display === "") {
-        container.style.display = "block";
-        this.textContent = "收起產品";
-      } else {
-        container.style.display = "none";
+      const container = document.getElementById('products-container');
+      if (container.classList.contains('expanded')) {
+        container.classList.remove('expanded');
         this.textContent = "展開產品";
+      } else {
+        container.classList.add('expanded');
+        this.textContent = "收合產品";
       }
     });
   </script>
