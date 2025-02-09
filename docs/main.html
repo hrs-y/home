@@ -3,36 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Harrison 的個人網站</title>
+  <title>Harrison's 的個人網站</title>
   <meta name="description" content="Harrison 的個人網站，展示他的技術能力、專案經驗以及對 C++ 的熱情。" />
   <meta name="keywords" content="Harrison, 個人網站, 軟體開發, C++, 技術庫, 專案" />
 
-  <!-- Google Fonts: 使用 Noto Sans TC 作為正文字體，Noto Serif TC 作為標題字體 -->
+  <!-- Google Fonts: 使用 Noto Sans TC 與 Noto Serif TC -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet" />
   <!-- Devicon 與 Font Awesome -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
-    /* 全局變數與配色方案 */
+    /* 全局變數：紙色主題亮色版 */
     :root {
-      --primary-color: #28a745;
-      --secondary-color: #218838;
-      --accent-color: #ffcc00;
-      --background-color: #f8f9fa;
-      --text-color: #333333;
-      --header-background: #ffffff;
-      --section-background: #ffffff;
-      --footer-background: #ffffff;
+      --primary-color: #6f4e37;       /* 咖啡棕 */
+      --secondary-color: #8b5e3c;
+      --accent-color: #deb887;
+      --background-color: #fdfaf3;    /* 溫暖的紙張色 */
+      --text-color: #4a4a4a;          /* 柔和的深色文字 */
+      --header-background: #fef7e7;
+      --section-background: #fef7e7;
+      --footer-background: #fef7e7;
     }
-    body.dark-theme {
-      --background-color: #121212;
+    
+    /* 紙色主題深色模式覆蓋 */
+    body.dark-paper {
+      --primary-color: #c49e80;
+      --secondary-color: #a57b60;
+      --accent-color: #b8860b;
+      --background-color: #2b2b2b;
       --text-color: #e0e0e0;
-      --header-background: #1e1e1e;
-      --section-background: #1a1a1a;
-      --footer-background: #1e1e1e;
+      --header-background: #3a3a3a;
+      --section-background: #3a3a3a;
+      --footer-background: #3a3a3a;
     }
-
+    
+    /* 深色模式下覆蓋原本硬編碼的白色背景與邊框 */
+    body.dark-paper .card-front,
+    body.dark-paper .card-back,
+    body.dark-paper .tech-item,
+    body.dark-paper .product-item,
+    body.dark-paper .contact-links a {
+      background-color: #3a3a3a;
+      border-color: #555;
+    }
+    
+    /* 主題切換按鈕 */
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      margin-left: 25px;
+    }
+    .theme-switch input { opacity: 0; width: 0; height: 0; }
+    .theme-switch .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+    .theme-switch .slider::before {
+      position: absolute;
+      content: "";
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    .theme-switch input:checked + .slider {
+      background-color: var(--primary-color);
+    }
+    .theme-switch input:checked + .slider::before {
+      transform: translateX(26px);
+    }
+    
     /* 基本重置與字體設定 */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -41,10 +89,9 @@
       color: var(--text-color);
       line-height: 1.6;
       transition: background-color 0.5s, color 0.5s;
-      /* 取消 CSS 原生平滑滾動，由自訂函數處理 */
     }
     
-    /* 為每個內容區塊添加 scroll-margin-top 以避免被固定 header 遮擋，並設定淡入效果 */
+    /* 每個內容區塊的淡入動畫 */
     .content-section {
       scroll-margin-top: 80px;
       opacity: 0;
@@ -74,11 +121,17 @@
       justify-content: space-between;
       align-items: center;
     }
+    /* 將 logo 修改為 Harrison's 並加入小上標 Beta */
     .logo {
       font-family: 'Noto Serif TC', serif;
       font-size: 2em;
       font-weight: 700;
       color: var(--primary-color);
+    }
+    .logo sup {
+      font-size: 0.5em;
+      vertical-align: super;
+      margin-left: 2px;
     }
     nav ul.nav-menu {
       display: flex;
@@ -110,38 +163,6 @@
     }
     nav ul.nav-menu li a:hover { color: var(--primary-color); }
     
-    /* 主題切換按鈕 */
-    .theme-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-    .theme-switch input { opacity: 0; width: 0; height: 0; }
-    .theme-switch .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 34px;
-    }
-    .theme-switch .slider::before {
-      position: absolute;
-      content: "";
-      height: 18px; width: 18px;
-      left: 3px; bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-    .theme-switch input:checked + .slider {
-      background-color: var(--primary-color);
-    }
-    .theme-switch input:checked + .slider::before {
-      transform: translateX(26px);
-    }
-    
     /* 主要內容區塊 */
     .content-section {
       background-color: var(--section-background);
@@ -168,16 +189,14 @@
       align-items: center;
       justify-content: center;
       padding-top: 70px;
-      background: 
-        linear-gradient(135deg, rgba(40,167,69,0.8) 0%, rgba(255,204,0,0.8) 100%),
-        url('background.png') no-repeat center center/cover;
+      background: linear-gradient(135deg, rgba(111,78,55,0.8) 0%, rgba(222,184,135,0.8) 100%);
     }
     .hero::before {
       content: '';
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(40,167,69,0.3);
+      background: rgba(111,78,55,0.3);
       z-index: 1;
       transition: background 0.3s;
     }
@@ -190,7 +209,7 @@
       width: 90%;
       flex-wrap: wrap;
       justify-content: center;
-      background: rgba(40,167,69,0.8);
+      background: rgba(111,78,55,0.8);
       padding: 40px;
       border-radius: 15px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.3);
@@ -252,6 +271,12 @@
     /* 我在聽區塊 */
     .music-player {
       margin-bottom: 30px;
+      /* 使播放器容器置中 */
+      text-align: center;
+    }
+    .music-player iframe {
+      display: block;
+      margin: 0 auto;
     }
     .music-note {
       text-align: center;
@@ -322,11 +347,6 @@
       overflow: auto;
       padding: 8px;
     }
-    body.dark-theme .card-back {
-      background-color: #333;
-      color: #e0e0e0;
-      border-color: #444;
-    }
     .card-back h3 { margin-bottom: 5px; }
     .card-back p { margin-bottom: 10px; }
     .flip-back {
@@ -378,18 +398,25 @@
     }
     
     /* 產品區塊：以卡片網格方式呈現，並加入展開/收合動畫 */
+    #products {
+      text-align: center;
+    }
     #products p { margin-bottom: 20px; line-height: 1.8; }
     #toggle-products {
       margin-bottom: 20px;
     }
-    /* 初始狀態：隱藏，使用 max-height 與 opacity 過渡 */
+    #products ul {
+      display: inline-block;
+      text-align: left;
+      margin: 0;
+      padding: 0;
+    }
     #products-container {
       max-height: 0;
       opacity: 0;
       overflow: hidden;
       transition: max-height 0.5s ease, opacity 0.5s ease;
     }
-    /* 加入 expanded class 時展開 */
     #products-container.expanded {
       max-height: 1000px;
       opacity: 1;
@@ -410,11 +437,6 @@
     .product-item:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    body.dark-theme .product-item {
-      background: #2a2a2a;
-      border-color: #444;
-      color: #e0e0e0;
     }
     
     /* 聯絡我區塊 */
@@ -438,7 +460,7 @@
     }
     .contact-links a:hover {
       transform: translateY(-5px);
-      background-color: rgba(40,167,69,0.3);
+      background-color: rgba(111,78,55,0.3);
     }
     
     /* 關於我區塊打字動畫 */
@@ -497,7 +519,8 @@
   <!-- 頂部導覽 -->
   <header>
     <div class="nav-container">
-      <div class="logo">Harrison</div>
+      <!-- 修改此處 Logo 為 Harrison's 並加入小上標 Beta -->
+      <div class="logo">Harrison's<sup>Beta</sup></div>
       <nav>
         <ul class="nav-menu">
           <li><a href="#about">關於我</a></li>
@@ -506,9 +529,10 @@
           <li><a href="#projects">我的專案</a></li>
           <li><a href="#products">我的產品</a></li>
           <li><a href="#contact">聯絡我</a></li>
+          <!-- 主題切換按鈕 -->
           <li>
-            <label class="theme-switch" aria-label="切換至暗黑模式">
-              <input type="checkbox" id="theme-toggle" aria-checked="false" />
+            <label class="theme-switch" aria-label="切換主題">
+              <input type="checkbox" id="theme-toggle" />
               <span class="slider"></span>
             </label>
           </li>
@@ -542,7 +566,7 @@
     <!-- 我在聽 -->
     <section id="music" class="content-section">
       <h2>我在聽 <span class="music-note">(由 Apple Music 提供播放器)</span></h2>
-      <p>以下是我近期喜歡的三首歌曲：</p>
+      <!-- 已刪除「以下是我近期喜歡的三首歌曲：」這段文字 -->
       <div class="music-player">
         <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/album/%E9%A3%9B%E6%A9%9F%E5%A0%B4%E7%9A%8410-30-live/917203187?i=917203192"></iframe>
       </div>
@@ -755,35 +779,6 @@
     }, { threshold: 0.3 });
     sections.forEach(section => sectionObserver.observe(section));
     
-    // 主題切換功能
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark-theme') {
-      body.classList.add('dark-theme');
-      themeToggle.checked = true;
-      themeToggle.setAttribute('aria-checked', 'true');
-      themeToggle.parentElement.setAttribute('aria-label', '切換至亮色模式');
-    } else {
-      body.classList.remove('dark-theme');
-      themeToggle.checked = false;
-      themeToggle.setAttribute('aria-checked', 'false');
-      themeToggle.parentElement.setAttribute('aria-label', '切換至暗黑模式');
-    }
-    themeToggle.addEventListener('change', () => {
-      if (themeToggle.checked) {
-        body.classList.add('dark-theme');
-        localStorage.setItem('theme', 'dark-theme');
-        themeToggle.setAttribute('aria-checked', 'true');
-        themeToggle.parentElement.setAttribute('aria-label', '切換至亮色模式');
-      } else {
-        body.classList.remove('dark-theme');
-        localStorage.removeItem('theme');
-        themeToggle.setAttribute('aria-checked', 'false');
-        themeToggle.parentElement.setAttribute('aria-label', '切換至暗黑模式');
-      }
-    });
-    
     // 返回頂部按鈕
     const backToTopBtn = document.getElementById('back-to-top');
     window.addEventListener('scroll', () => {
@@ -848,6 +843,31 @@
       } else {
         container.classList.add('expanded');
         this.textContent = "收合產品";
+      }
+    });
+    
+    // 主題切換功能：切換亮色與深色的紙色主題
+    const themeToggle = document.getElementById('theme-toggle');
+    const bodyElement = document.body;
+    // 檢查 localStorage
+    if (localStorage.getItem('theme') === 'dark-paper') {
+      bodyElement.classList.add('dark-paper');
+      themeToggle.checked = true;
+      themeToggle.setAttribute('aria-label', '切換至亮色模式');
+    } else {
+      themeToggle.checked = false;
+      themeToggle.setAttribute('aria-label', '切換至暗色模式');
+    }
+    
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        bodyElement.classList.add('dark-paper');
+        localStorage.setItem('theme', 'dark-paper');
+        themeToggle.setAttribute('aria-label', '切換至亮色模式');
+      } else {
+        bodyElement.classList.remove('dark-paper');
+        localStorage.removeItem('theme');
+        themeToggle.setAttribute('aria-label', '切換至暗色模式');
       }
     });
   </script>
