@@ -476,6 +476,71 @@
     #about-text.typing::after {
       content: "";
       animation: caret 0.75s step-end infinite;
+      /* Harrison's Opinion 系列滾動效果 */
+.logo-scroll-container {
+  width: 100%;
+  overflow: hidden;
+  background: var(--section-background);
+  padding: 40px 0;
+  margin: 20px 0;
+}
+
+.logo-scroll-track {
+  display: flex;
+  animation: scrollLogos 20s linear infinite;
+  white-space: nowrap;
+}
+
+.logo-group {
+  display: flex;
+  gap: 80px;
+  padding: 0 40px;
+}
+
+.logo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.logo-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.8em;
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.logo-subtitle {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.8em;
+  font-weight: 700;
+  border-top: 2px solid var(--text-color);
+  padding-top: 4px;
+  opacity: 0.9;
+}
+
+@keyframes scrollLogos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* 深色模式適配 */
+body.dark-paper .logo-scroll-container {
+  background: var(--section-background);
+}
+
+body.dark-paper .logo-title {
+  color: var(--text-color);
+}
+
+body.dark-paper .logo-subtitle {
+  border-top-color: var(--text-color);
+}
     }
     
     /* 頁尾 */
@@ -651,6 +716,55 @@
         </div>
       </div>
     </section>
+
+    <!-- Harrison's Opinion 系列 -->
+<section id="opinion-series" class="content-section">
+  <h2>Harrison's Opinion 系列</h2>
+  <!-- Logo 滾動容器 -->
+  <div class="logo-scroll-container">
+    <div class="logo-scroll-track">
+      <!-- 第一組 Logo -->
+      <div class="logo-group">
+        <div class="logo-item">
+          <div class="logo-title">HARRISON'S</div>
+          <div class="logo-subtitle" style="color: #9333EA;">ESSAY</div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-title">HARRISON'S</div>
+          <div class="logo-subtitle" style="color: #334155;">NEWS</div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-title">HARRISON'S</div>
+          <div class="logo-subtitle" style="color: #B91C1C;">OPINION</div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-title">HARRISON'S</div>
+          <div class="logo-subtitle" style="color: #2563EB;">TECH</div>
+        </div>
+      </div>
+      <!-- 第二組 Logo（用於無縫滾動） -->
+      <div class="logo-group">
+        <div class="logo-item">
+          <div class="logo-title">HARRISON'S</div>
+          <div class="logo-subtitle" style="color: #9333EA;">ESSAY</div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-title">HARRISON'S</div>
+          <div class="logo-subtitle" style="color: #334155;">NEWS</div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-title">HARRISON'S</div>
+          <div class="logo-subtitle" style="color: #B91C1C;">OPINION</div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-title">HARRISON'S</div>
+          <div class="logo-subtitle" style="color: #2563EB;">TECH</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    
     
     <!-- 我的產品：展開/收合動畫 -->
     <section id="products" class="content-section">
