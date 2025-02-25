@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Harrison's 的個人網站</title>
+  <title>Harrison's 個人網站</title>
   <meta name="description" content="Harrison 的個人網站，展示他的技術能力、專案經驗以及對 C++ 的熱情。" />
   <meta name="keywords" content="Harrison, 個人網站, 軟體開發, C++, 技術庫, 專案" />
 
@@ -42,7 +42,6 @@
     body.dark-paper .card-front,
     body.dark-paper .card-back,
     body.dark-paper .tech-item,
-    body.dark-paper .product-item,
     body.dark-paper .contact-links a {
       background-color: #3a3a3a;
       border-color: #555;
@@ -121,7 +120,6 @@
       justify-content: space-between;
       align-items: center;
     }
-    /* 將 logo 修改為 Harrison's 並加入小上標 Beta */
     .logo {
       font-family: 'Noto Serif TC', serif;
       font-size: 2em;
@@ -271,7 +269,6 @@
     /* 我在聽區塊 */
     .music-player {
       margin-bottom: 30px;
-      /* 使播放器容器置中 */
       text-align: center;
     }
     .music-player iframe {
@@ -397,48 +394,6 @@
       color: var(--text-color);
     }
     
-    /* 產品區塊：以卡片網格方式呈現，並加入展開/收合動畫 */
-    #products {
-      text-align: center;
-    }
-    #products p { margin-bottom: 20px; line-height: 1.8; }
-    #toggle-products {
-      margin-bottom: 20px;
-    }
-    #products ul {
-      display: inline-block;
-      text-align: left;
-      margin: 0;
-      padding: 0;
-    }
-    #products-container {
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: max-height 0.5s ease, opacity 0.5s ease;
-    }
-    #products-container.expanded {
-      max-height: 1000px;
-      opacity: 1;
-    }
-    .products-grid {
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-    .product-item {
-      padding: 15px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .product-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    
     /* 聯絡我區塊 */
     .contact-links {
       display: flex;
@@ -476,71 +431,43 @@
     #about-text.typing::after {
       content: "";
       animation: caret 0.75s step-end infinite;
-      /* Harrison's Opinion 系列滾動效果 */
-.logo-scroll-container {
-  width: 100%;
-  overflow: hidden;
-  background: var(--section-background);
-  padding: 40px 0;
-  margin: 20px 0;
-}
-
-.logo-scroll-track {
-  display: flex;
-  animation: scrollLogos 20s linear infinite;
-  white-space: nowrap;
-}
-
-.logo-group {
-  display: flex;
-  gap: 80px;
-  padding: 0 40px;
-}
-
-.logo-item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex-shrink: 0;
-}
-
-.logo-title {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 1.8em;
-  color: var(--text-color);
-  font-weight: 700;
-}
-
-.logo-subtitle {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 1.8em;
-  font-weight: 700;
-  border-top: 2px solid var(--text-color);
-  padding-top: 4px;
-  opacity: 0.9;
-}
-
-@keyframes scrollLogos {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* 深色模式適配 */
-body.dark-paper .logo-scroll-container {
-  background: var(--section-background);
-}
-
-body.dark-paper .logo-title {
-  color: var(--text-color);
-}
-
-body.dark-paper .logo-subtitle {
-  border-top-color: var(--text-color);
-}
+    }
+    
+    /* Harrison's Opinion 系列滾動效果 */
+    .logo-scroll-container {
+      width: 100%;
+      overflow: hidden;
+      background: var(--section-background);
+      padding: 40px 0;
+      margin: 60px 0;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .logo-scroll-track {
+      display: flex;
+      animation: scrollLogos 30s linear infinite;
+      white-space: nowrap;
+    }
+    .logo-group {
+      display: flex;
+      gap: 80px;
+      padding: 0 40px;
+    }
+    .logo-item svg {
+      width: 300px;
+      height: 150px;
+    }
+    @keyframes scrollLogos {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+    /* 深色模式適配 */
+    body.dark-paper .logo-scroll-container {
+      background: var(--section-background);
     }
     
     /* 頁尾 */
@@ -584,7 +511,6 @@ body.dark-paper .logo-subtitle {
   <!-- 頂部導覽 -->
   <header>
     <div class="nav-container">
-      <!-- 修改此處 Logo 為 Harrison's 並加入小上標 Beta -->
       <div class="logo">Harrison's<sup>Beta</sup></div>
       <nav>
         <ul class="nav-menu">
@@ -592,9 +518,8 @@ body.dark-paper .logo-subtitle {
           <li><a href="#music">我在聽</a></li>
           <li><a href="#tech-stack">技術庫</a></li>
           <li><a href="#projects">我的專案</a></li>
-          <li><a href="#products">我的產品</a></li>
+          <li><a href="#opinions">Harrison 見聞</a></li>
           <li><a href="#contact">聯絡我</a></li>
-          <!-- 主題切換按鈕 -->
           <li>
             <label class="theme-switch" aria-label="切換主題">
               <input type="checkbox" id="theme-toggle" />
@@ -639,7 +564,7 @@ body.dark-paper .logo-subtitle {
       <div class="music-player">
         <iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/album/merry-go-round-of-life-from-howls-moving-castle/1498699081?i=1498699387"></iframe>
       </div>
-</section>
+    </section>
     
     <!-- 技術庫 -->
     <section id="tech-stack" class="content-section">
@@ -672,7 +597,6 @@ body.dark-paper .logo-subtitle {
     <section id="projects" class="content-section">
       <h2>我的專案</h2>
       <div class="projects-grid">
-        <!-- 個人網站專案 -->
         <div class="project-card">
           <div class="card-inner">
             <div class="card-front">
@@ -686,7 +610,6 @@ body.dark-paper .logo-subtitle {
             </div>
           </div>
         </div>
-        <!-- Blog 專案 -->
         <div class="project-card">
           <div class="card-inner">
             <div class="card-front">
@@ -700,7 +623,6 @@ body.dark-paper .logo-subtitle {
             </div>
           </div>
         </div>
-        <!-- Windows APP 專案 -->
         <div class="project-card">
           <div class="card-inner">
             <div class="card-front">
@@ -716,32 +638,143 @@ body.dark-paper .logo-subtitle {
         </div>
       </div>
     </section>
-
-    <!-- 我的產品：展開/收合動畫 -->
-    <section id="products" class="content-section">
-      <h2>我的產品</h2>
-      <p>
-        <strong>Harrison 的大語言模型 API 接入服務</strong><br>
-        我們提供一站式 API 接入解決方案，助您快速整合主要語言模型。服務內容包括：
-      </p>
-      <ul style="margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
-        <li>高效能、低延遲的接入體驗</li>
-        <li>安全、穩定且易於擴展的架構設計</li>
-        <li>支援多款主流語言模型產品</li>
-      </ul>
-      <button id="toggle-products" class="cta-button">展開產品</button>
-      <div id="products-container">
-        <div class="products-grid">
-          <div class="product-item">ChatGPT-4o</div>
-          <div class="product-item">ChatGPT-4o-mini</div>
-          <div class="product-item">ChatGPT-o1</div>
-          <div class="product-item">ChatGPT-o3-mini</div>
-          <div class="product-item">ChatGPT-o3-mini-high</div>
-          <div class="product-item">DallE</div>
-          <div class="product-item">Claude 3.5 sonnet</div>
-          <div class="product-item">Claude 3.5 haiku</div>
-          <div class="product-item">Claude 3.0 opus</div>
-          <div class="product-item">Sora</div>
+    
+    <!-- Harrison 見聞區塊：橫向滾動效果 -->
+    <section id="opinions" class="content-section">
+      <h2>Harrison 見聞</h2>
+      <div class="logo-scroll-container">
+        <div class="logo-scroll-track">
+          <div class="logo-group">
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#8b0000" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">OPINION</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#d4d4d4">"</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#8b0000" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#8b0000" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#805ad5" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">ESSAY</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#e5e7eb">§</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#805ad5" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#805ad5" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#374151" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">NEWS</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#e5e7eb">⟨</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#374151" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#374151" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#2563eb" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">TECH</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#2563eb" opacity="0.15">{</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#2563eb" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#2563eb" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#147B89" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">RESEARCH</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#147B89" opacity="0.15">∆</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#147B89" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#147B89" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#15803d" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">FINANCE</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#15803d" opacity="0.15">$</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#15803d" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#15803d" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#e11d48" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">FEELING</text>
+                <text x="290" y="140" font-family="Baskerville" font-size="120" fill="#e11d48" opacity="0.15">α</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#e11d48" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#e11d48" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+          </div>
+          <!-- 重複一組以實現無縫滾動 -->
+          <div class="logo-group">
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#8b0000" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">OPINION</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#d4d4d4">"</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#8b0000" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#8b0000" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#805ad5" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">ESSAY</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#e5e7eb">§</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#805ad5" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#805ad5" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#374151" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">NEWS</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#e5e7eb">⟨</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#374151" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#374151" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#2563eb" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">TECH</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#2563eb" opacity="0.15">{</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#2563eb" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#2563eb" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#147B89" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">RESEARCH</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#147B89" opacity="0.15">∆</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#147B89" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#147B89" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#15803d" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">FINANCE</text>
+                <text x="330" y="160" font-family="Baskerville" font-size="120" fill="#15803d" opacity="0.15">$</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#15803d" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#15803d" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                <text x="50" y="80" font-family="Didot" font-size="42" fill="#2c3e50" font-weight="normal" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">HARRISON'S</text>
+                <text x="50" y="140" font-family="Garamond" font-size="52" fill="#e11d48" font-weight="normal" letter-spacing="6" style="filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1))">FEELING</text>
+                <text x="290" y="140" font-family="Baskerville" font-size="120" fill="#e11d48" opacity="0.15">α</text>
+                <line x1="50" y1="160" x2="300" y2="160" stroke="#e11d48" stroke-width="1.5"/>
+                <line x1="50" y1="163" x2="300" y2="163" stroke="#e11d48" stroke-width="0.5" opacity="0.5"/>
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -788,7 +821,7 @@ body.dark-paper .logo-subtitle {
   <!-- 頁尾 -->
   <footer>
     <p>© 2025 Harrison. All rights reserved.</p>
-    <p class="credits">*本頁面由 Harrison呈現</p>
+    <p class="credits">*本頁面由 Harrison 呈現</p>
   </footer>
   
   <!-- 返回頂部按鈕 -->
@@ -882,7 +915,7 @@ body.dark-paper .logo-subtitle {
       const aboutTextElement = document.getElementById('about-text');
       const fullText = "你好！我是 Harrison，一位熱愛程式開發、專注於追求高效且優雅程式設計的開發者。\n\n我喜歡探索底層技術、多執行緒編程以及最新的 C++ 標準，持續學習並在實際專案中應用這些知識。\n\n此外，我也熱衷於參與開源社群，與志同道合的夥伴們分享技術心得與專案經驗。這個個人網站正是我的展示平台，期待與您交流！";
       let index = 0;
-      const speed = 50; // 每個字元的打字速度（毫秒）
+      const speed = 50;
       
       function typeWriter() {
         if (index < fullText.length) {
@@ -897,22 +930,9 @@ body.dark-paper .logo-subtitle {
       typeWriter();
     });
     
-    // 我的產品區塊：展開/收合動畫
-    document.getElementById('toggle-products').addEventListener('click', function() {
-      const container = document.getElementById('products-container');
-      if (container.classList.contains('expanded')) {
-        container.classList.remove('expanded');
-        this.textContent = "展開產品";
-      } else {
-        container.classList.add('expanded');
-        this.textContent = "收合產品";
-      }
-    });
-    
     // 主題切換功能：切換亮色與深色的紙色主題
     const themeToggle = document.getElementById('theme-toggle');
     const bodyElement = document.body;
-    // 檢查 localStorage
     if (localStorage.getItem('theme') === 'dark-paper') {
       bodyElement.classList.add('dark-paper');
       themeToggle.checked = true;
