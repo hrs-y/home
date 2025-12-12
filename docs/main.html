@@ -1,8 +1,4 @@
-.tech-grid .tech-item.animate:nth-child(1) { animation-delay: 0.1s; }
-    .tech-grid .tech-item.animate:nth-child(2) { animation-delay: 0.2s; }
-    .tech-grid .tech-item.animate:nth-child(3) { animation-delay: 0.3s; }
-    .tech-grid .tech-item.animate:nth-child(4) { animation-delay: 0.4s; }
-    .tech-grid .tech-item.animate:nth-child(5) { animation-delay: 0.5s; }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
@@ -1346,6 +1342,307 @@
         font-size: 0.6em;
       }
     }
+  
+
+    /* =========================
+       Winter Glass Refinement
+       在保留原有內容的前提下：提升玻璃質感、加入冬季氛圍與細節
+       ========================= */
+
+    :root {
+      /* 冬季配色與質感參數 */
+      --winter-blue: #0ea5e9;
+      --winter-indigo: #2563eb;
+      --winter-ice: rgba(185, 227, 255, 0.55);
+      --winter-ice-soft: rgba(185, 227, 255, 0.25);
+
+      /* Aurora / 冷色光暈 */
+      --aurora-1: rgba(56, 189, 248, 0.16);
+      --aurora-2: rgba(110, 231, 183, 0.14);
+      --aurora-3: rgba(167, 139, 250, 0.12);
+
+      /* 顆粒噪點：讓玻璃更“高級” */
+      --grain-opacity: 0.035;
+
+      /* 半徑與玻璃參數 */
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --glass-blur: 22px;
+      --glass-sat: 180%;
+      --glass-bright: 115%;
+
+      /* 玻璃邊緣與陰影更精緻 */
+      --glass-border: rgba(255, 255, 255, 0.42);
+      --glass-border-strong: rgba(185, 227, 255, 0.35);
+      --glass-inset: inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(255,255,255,0.08);
+      --glass-shadow: 0 12px 42px rgba(0, 0, 0, 0.10);
+      --glass-shadow-hover: 0 18px 58px rgba(0, 0, 0, 0.14);
+
+      /* 按鈕改為冬季冷色系漸層 */
+      --highlight-gradient: linear-gradient(135deg,
+        rgba(37, 99, 235, 0.95) 0%,
+        rgba(14, 165, 233, 0.95) 100%);
+
+      /* 整體背景更偏“冬季白 / 冷霧” */
+      --primary-gradient: linear-gradient(135deg, #f7fbff 0%, #e7f1ff 45%, #dde6f6 100%);
+      --background-overlay: linear-gradient(135deg,
+        rgba(247, 251, 255, 0.9) 0%,
+        rgba(231, 241, 255, 0.65) 45%,
+        rgba(221, 230, 246, 0.9) 100%);
+
+      /* 互動光暈（由 JS 即時更新） */
+      --mx: 50%;
+      --my: 20%;
+    }
+
+    body.dark-paper {
+      /* 深色模式：夜晚冬季（偏深藍） */
+      --primary-gradient: linear-gradient(135deg, #0b1220 0%, #101a31 45%, #16223b 100%);
+      --background-overlay: linear-gradient(135deg,
+        rgba(11, 18, 32, 0.92) 0%,
+        rgba(16, 26, 49, 0.75) 45%,
+        rgba(22, 34, 59, 0.92) 100%);
+
+      --glass-bg: rgba(255, 255, 255, 0.06);
+      --glass-bg-strong: rgba(255, 255, 255, 0.10);
+      --glass-border: rgba(255, 255, 255, 0.16);
+      --glass-border-strong: rgba(186, 230, 253, 0.22);
+
+      --glass-shadow: 0 16px 60px rgba(0, 0, 0, 0.55);
+      --glass-shadow-hover: 0 20px 72px rgba(0, 0, 0, 0.50);
+
+      --grain-opacity: 0.06;
+      --highlight-gradient: linear-gradient(135deg,
+        rgba(96, 165, 250, 0.95) 0%,
+        rgba(34, 211, 238, 0.95) 100%);
+    }
+
+    body {
+      isolation: isolate;
+    }
+
+    /* 背景光暈（Aurora） + 原有 overlay */
+    body::before {
+      z-index: -4;
+      background:
+        var(--background-overlay),
+        radial-gradient(1100px circle at 20% 8%, var(--aurora-1), transparent 55%),
+        radial-gradient(900px circle at 80% 0%, var(--aurora-3), transparent 58%),
+        radial-gradient(900px circle at 70% 85%, var(--aurora-2), transparent 60%);
+    }
+
+    /* 顆粒噪點（讓玻璃更“像真的”） */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      opacity: var(--grain-opacity);
+      mix-blend-mode: overlay;
+    }
+
+    /* 雪花 Canvas */
+    #snow-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* 既有浮動裝飾更像“冰霧” */
+    .floating-shapes {
+      z-index: -1;
+      opacity: 0.22;
+    }
+
+    .floating-shape {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(185, 227, 255, 0.12);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    /* 玻璃：加入高光/霜紋/內陰影（更精緻） */
+    .glass, .glass-strong {
+      position: relative;
+      overflow: hidden;
+      transform: translateZ(0);
+    }
+
+    .glass {
+      background: linear-gradient(135deg, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0.18) 100%);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-inset);
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+    }
+
+    .glass-strong {
+      background: linear-gradient(135deg, rgba(255,255,255,0.48) 0%, rgba(255,255,255,0.22) 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--glass-border-strong);
+      box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.28);
+      backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(calc(var(--glass-sat) + 20%)) brightness(calc(var(--glass-bright) + 10%));
+      -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(calc(var(--glass-sat) + 20%)) brightness(calc(var(--glass-bright) + 10%));
+    }
+
+    .glass::before, .glass-strong::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      pointer-events: none;
+      background:
+        radial-gradient(700px circle at var(--mx) var(--my), rgba(255,255,255,0.38), transparent 55%),
+        radial-gradient(900px circle at 20% 10%, rgba(185,227,255,0.22), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0.05));
+      opacity: 0.55;
+      mix-blend-mode: overlay;
+      transition: opacity 0.3s ease;
+    }
+
+    .glass::after, .glass-strong::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background:
+        radial-gradient(1200px circle at 70% 110%, rgba(255,255,255,0.18), transparent 55%),
+        repeating-linear-gradient(135deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 9px);
+      opacity: 0.25;
+      mix-blend-mode: overlay;
+    }
+
+    .glass:hover::before,
+    .glass-strong:hover::before {
+      opacity: 0.75;
+    }
+
+    .glass:hover {
+      box-shadow: var(--glass-shadow-hover), var(--glass-inset);
+      transform: translateY(-3px);
+      border-color: rgba(186, 230, 253, 0.55);
+    }
+
+    .glass-strong:hover {
+      box-shadow: var(--glass-shadow-hover), inset 0 1px 0 rgba(255,255,255,0.30);
+      transform: translateY(-2px);
+    }
+
+    /* Header 不要 hover 上移 */
+    header.glass:hover {
+      transform: none;
+    }
+
+    header.glass {
+      border-radius: 0 0 18px 18px;
+    }
+
+    header.glass.is-scrolled {
+      background: rgba(255, 255, 255, 0.60);
+      border-color: rgba(186, 230, 253, 0.45);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.10);
+    }
+
+    body.dark-paper header.glass.is-scrolled {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(186, 230, 253, 0.22);
+    }
+
+    /* Logo 加入小雪花，點綴冬季氛圍 */
+    .logo {
+      position: relative;
+    }
+
+    .logo::after {
+      content: '❄';
+      margin-left: 10px;
+      font-size: 0.55em;
+      opacity: 0.65;
+      display: inline-block;
+      transform: translateY(-3px);
+      animation: snowTwinkle 3.4s ease-in-out infinite;
+    }
+
+    @keyframes snowTwinkle {
+      0%, 100% { opacity: 0.55; transform: translateY(-3px) rotate(0deg); }
+      50% { opacity: 0.95; transform: translateY(-3px) rotate(18deg); }
+    }
+
+    /* CTA 按鈕更有“冷光” */
+    .cta-button {
+      background: var(--highlight-gradient);
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+    }
+
+    .cta-button:hover {
+      box-shadow: 0 16px 44px rgba(37, 99, 235, 0.32);
+    }
+
+    /* 章節標題加一條“冰藍細線” */
+    .content-section {
+      border-radius: 22px;
+    }
+
+    .content-section h2 {
+      position: relative;
+    }
+
+    .content-section h2::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -14px;
+      width: 120px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(186, 230, 253, 0.95), transparent);
+      opacity: 0.9;
+    }
+
+    /* 技術卡片外框更有冰感 */
+    .tech-item::before {
+      background: linear-gradient(45deg, transparent, rgba(186, 230, 253, 0.55), transparent);
+    }
+
+    .project-card .card-front {
+      border-color: rgba(186, 230, 253, 0.35);
+    }
+
+    /* 返回頂部按鈕更統一 */
+    #back-to-top {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    body.dark-paper #back-to-top {
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    /* 文字選取顏色 */
+    ::selection {
+      background: rgba(186, 230, 253, 0.6);
+      color: var(--text-primary);
+    }
+
+    body.dark-paper ::selection {
+      background: rgba(59, 130, 246, 0.45);
+      color: #fff;
+    }
+
+    /* 無動畫偏好：尊重使用者設定 */
+    @media (prefers-reduced-motion: reduce) {
+      #snow-canvas { display: none; }
+      .floating-shape, .logo::after { animation: none !important; }
+      .glass, .glass-strong, .glass:hover, .glass-strong:hover { transition: none; transform: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -1355,6 +1652,9 @@
     <div class="floating-shape"></div>
     <div class="floating-shape"></div>
   </div>
+
+  <!-- 冬季：雪花背景 (Canvas) -->
+  <canvas id="snow-canvas" aria-hidden="true"></canvas>
 
   <!-- 頂部導覽 -->
   <header class="glass">
@@ -2081,6 +2381,137 @@
         themeToggle.setAttribute('aria-label', '切換至暗色模式');
       }
     });
+  
+
+    /* =========================
+       Winter Enhancements JS
+       - Header scroll state
+       - Pointer glow highlight (CSS vars)
+       - Snow canvas
+       ========================= */
+
+    // Header scroll state (更有層次感)
+    const headerEl = document.querySelector('header');
+    function updateHeaderState() {
+      if (!headerEl) return;
+      headerEl.classList.toggle('is-scrolled', window.scrollY > 10);
+    }
+    updateHeaderState();
+    window.addEventListener('scroll', updateHeaderState, { passive: true });
+
+    // Pointer glow：讓玻璃高光跟著滑鼠走（更精緻）
+    (function enablePointerGlow() {
+      const root = document.documentElement;
+      let rafId = 0;
+
+      function setVars(x, y) {
+        root.style.setProperty('--mx', x + 'px');
+        root.style.setProperty('--my', y + 'px');
+      }
+
+      window.addEventListener('pointermove', (e) => {
+        if (rafId) return;
+        rafId = requestAnimationFrame(() => {
+          rafId = 0;
+          setVars(e.clientX, e.clientY);
+        });
+      }, { passive: true });
+    })();
+
+    // Snow canvas：輕量雪花（冬季元素）
+    (function winterSnow() {
+      const canvas = document.getElementById('snow-canvas');
+      if (!canvas) return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      let w = 0;
+      let h = 0;
+      let dpr = 1;
+      let flakes = [];
+
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function makeFlake(initial = false) {
+        const r = rand(1.0, 3.4);
+        return {
+          x: rand(0, w),
+          y: initial ? rand(0, h) : -20,
+          r,
+          vx: rand(-0.35, 0.35),
+          vy: rand(0.7, 2.1) + r * 0.12,
+          alpha: rand(0.22, 0.85),
+          sway: rand(0.004, 0.012),
+          phase: rand(0, Math.PI * 2),
+        };
+      }
+
+      function init() {
+        resize();
+        const count = Math.min(160, Math.max(60, Math.floor((w * h) / 14000)));
+        flakes = [];
+        for (let i = 0; i < count; i++) flakes.push(makeFlake(true));
+      }
+
+      function snowPrefix() {
+        const dark = document.body.classList.contains('dark-paper');
+        return dark ? 'rgba(225,245,255,' : 'rgba(255,255,255,';
+      }
+
+      let last = performance.now();
+
+      function tick(now) {
+        const dt = Math.min((now - last) / 16.67, 1.6);
+        last = now;
+
+        ctx.clearRect(0, 0, w, h);
+
+        const prefix = snowPrefix();
+
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          f.phase += f.sway * dt * 6;
+
+          f.x += (f.vx + Math.sin(f.phase) * 0.55) * dt;
+          f.y += f.vy * dt;
+
+          // Wrap / Respawn
+          if (f.y > h + 20) {
+            flakes[i] = makeFlake(false);
+            continue;
+          }
+          if (f.x < -20) f.x = w + 20;
+          if (f.x > w + 20) f.x = -20;
+
+          ctx.beginPath();
+          ctx.fillStyle = prefix + f.alpha + ')';
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      init();
+      window.addEventListener('resize', init, { passive: true });
+      requestAnimationFrame(tick);
+    })();
+
   </script>
 </body>
 </html>
