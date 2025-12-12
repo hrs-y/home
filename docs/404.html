@@ -1,118 +1,319 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+<!doctype html>
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>404 - Harrison's</title>
+
   <style>
-    /* 全頁藍色背景與白色文字，模仿藍屏 */
-    body {
-      margin: 0;
-      padding: 0;
-      background: #010080;
-      font-family: Consolas, "Courier New", monospace;
-      color: #ffffff;
-      overflow: hidden;
-      position: relative;
+    :root{
+      --bg1:#061a33;
+      --bg2:#0b3a6d;
+      --glass: rgba(255,255,255,.14);
+      --glass2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.22);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --ice: rgba(191,227,255,.95);
+      --shadow: 0 18px 70px rgba(0,0,0,.50);
+      --radius: 26px;
     }
-    /* 背景動畫容器，位於頁面最底層 */
-    .bg-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                   "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Consolas, "Courier New", monospace;
+      color: var(--text);
+      overflow:hidden;
+      background:
+        radial-gradient(1100px 700px at 18% 16%, rgba(170,220,255,.22), transparent 58%),
+        radial-gradient(900px 600px at 84% 30%, rgba(255,255,255,.12), transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      display:grid;
+      place-items:center;
     }
-    /* 下落關鍵字樣式：採用較高不透明度的純白色，確保與背景形成對比 */
-    .keyword {
-      position: absolute;
-      top: -50px;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 18px;
+
+    /* 冰霧光斑 */
+    .glow{
+      position:fixed;
+      inset:-20%;
+      pointer-events:none;
+      filter: blur(34px);
+      opacity:.85;
+      background:
+        radial-gradient(420px 320px at 22% 70%, rgba(170,220,255,.22), transparent 62%),
+        radial-gradient(520px 360px at 70% 26%, rgba(255,255,255,.14), transparent 60%),
+        radial-gradient(380px 300px at 88% 84%, rgba(120,200,255,.18), transparent 62%);
+      animation: drift 10s ease-in-out infinite alternate;
+    }
+    @keyframes drift{
+      from{ transform: translate3d(-1.2%, -1%, 0) scale(1.02); }
+      to  { transform: translate3d( 1.2%,  1%, 0) scale(1.06); }
+    }
+
+    /* 背景飄落（雪/關鍵字雨） */
+    .fall{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      overflow:hidden;
+    }
+    .token{
+      position:absolute;
+      top:-12vh;
+      left: calc(var(--x) * 1vw);
+      opacity: var(--o);
+      transform: translateZ(0);
       white-space: nowrap;
-      animation: fall linear infinite;
+      user-select:none;
+
+      font-size: var(--fs);
+      letter-spacing: .2px;
+      color: rgba(255,255,255,.78);
+      text-shadow: 0 0 16px rgba(191,227,255,.10);
+
+      animation:
+        fall var(--d) linear infinite,
+        sway calc(var(--d) * .55) ease-in-out infinite alternate;
+      animation-delay: var(--delay);
+      filter: drop-shadow(0 0 10px rgba(255,255,255,.08));
     }
-    @keyframes fall {
-      0% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh);
-        opacity: 0;
-      }
+    .token::after{
+      /* 小雪點（讓程式碼雨更像冬天） */
+      content:"";
+      display:inline-block;
+      width: 6px;
+      height: 6px;
+      margin-left: 10px;
+      border-radius: 999px;
+      vertical-align: middle;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.25) 60%, transparent 70%);
+      opacity: .55;
     }
-    /* 藍屏式文字排版，固定在左上角 */
-    .bsod {
-      position: absolute;
-      top: 50px;
-      left: 50px;
-      z-index: 1;
-      line-height: 1.5;
-      font-size: 16px;
+
+    @keyframes fall{
+      to{ transform: translate3d(0, 120vh, 0); }
     }
-    .bsod .error-code {
-      font-size: 48px;
-      margin-bottom: 20px;
+    @keyframes sway{
+      from{ margin-left:-18px; }
+      to  { margin-left: 18px; }
     }
-    .bsod a {
-      color: #ffffff;
-      text-decoration: underline;
+
+    /* 玻璃卡片 */
+    .card{
+      position:relative;
+      z-index:1;
+      width: min(720px, calc(100vw - 32px));
+      border-radius: var(--radius);
+      padding: 28px 26px 22px;
+      background: linear-gradient(180deg, var(--glass), var(--glass2));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      cursor: pointer;
+    }
+
+    .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .code{
+      font-size: clamp(56px, 9vw, 92px);
+      line-height: 1;
+      margin: 0;
+      letter-spacing: 1px;
+      text-shadow: 0 0 28px rgba(191,227,255,.18);
+    }
+
+    .badge{
+      display:inline-grid;
+      place-items:center;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      backdrop-filter: blur(12px);
+      user-select:none;
+    }
+
+    .msg{
+      margin-top: 10px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+      max-width: 62ch;
+    }
+
+    .hint{
+      margin-top: 16px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+    }
+
+    .btn{
+      appearance:none;
+      border:none;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(191,227,255,.16);
+      color: var(--text);
+      border: 1px solid rgba(191,227,255,.26);
+      box-shadow: 0 12px 26px rgba(0,0,0,.22);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .btn:hover{
+      border-color: rgba(191,227,255,.42);
+      box-shadow: 0 16px 34px rgba(0,0,0,.28);
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.86);
+    }
+
+    /* 右下角小提示（像霜） */
+    .frost{
+      position:absolute;
+      right: 18px;
+      bottom: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,.60);
+      user-select:none;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .glow, .token { animation: none !important; }
     }
   </style>
-</head>
-<body>
-  <!-- 背景下落動畫 -->
-  <div class="bg-animation" id="bg-animation"></div>
-  
-  <!-- 藍屏式訊息 -->
-  <div class="bsod">
-    <p class="error-code">404</p>
-    <p>A problem has been detected and the requested page is missing.</p>
-    <p>If this issue persists, please contact your system administrator.</p>
-    <p>Press any key to continue to <a href="https://devhys.com">Harrison's</a>.</p>
-  </div>
-  
+
   <script>
-    // 定義 Linux / C++ 關鍵字或指令
+    const HOME_URL = "https://devhys.com";
+
     const keywords = [
       "if", "else", "while", "for", "switch", "case", "break", "continue",
       "return", "class", "struct", "public", "private", "protected",
-      "Linux", "sudo", "make", "g++", "compile", "execute", "nullptr", "std", "#include"
+      "Linux", "sudo", "make", "g++", "compile", "execute", "nullptr", "std", "#include",
+      "404", "ENOENT", "segfault?", "snow()", "ice.blur()", "glass()"
     ];
-    
-    const bgContainer = document.getElementById('bg-animation');
-    
-    // 建立下落關鍵字元素
-    function createKeyword() {
-      const span = document.createElement('span');
-      span.className = 'keyword';
-      span.innerText = keywords[Math.floor(Math.random() * keywords.length)];
-      span.style.left = Math.random() * window.innerWidth + 'px';
-      // 動畫持續時間設定為4-8秒
-      const duration = Math.random() * 4 + 4;
-      span.style.animationDuration = duration + 's';
-      // 加入隨機延遲以避免同步下落
-      span.style.animationDelay = Math.random() * 5 + 's';
-      bgContainer.appendChild(span);
-      
-      // 動畫結束後移除元素，避免 DOM 累積過多
-      setTimeout(() => {
-        span.remove();
-      }, (duration + 1) * 1000);
+
+    function addToken(container){
+      const t = document.createElement("span");
+      t.className = "token";
+      t.textContent = keywords[Math.floor(Math.random() * keywords.length)];
+
+      const x = Math.random() * 100;                 // vw
+      const o = (Math.random() * 0.55 + 0.25).toFixed(2);
+      const d = (Math.random() * 7 + 6).toFixed(2) + "s"; // 6~13s
+      const delay = (-Math.random() * 10).toFixed(2) + "s";
+      const fs = (Math.random() * 6 + 13).toFixed(2) + "px"; // 13~19px
+
+      t.style.setProperty("--x", x.toFixed(2));
+      t.style.setProperty("--o", o);
+      t.style.setProperty("--d", d);
+      t.style.setProperty("--delay", delay);
+      t.style.setProperty("--fs", fs);
+
+      container.appendChild(t);
+
+      // 清理：避免 DOM 無限累積（保留時間略大於動畫時間）
+      const life = parseFloat(d) * 1000 + 1500;
+      setTimeout(() => t.remove(), life);
     }
-    
-    // 每 300 毫秒生成一個新的關鍵字
-    setInterval(createKeyword, 300);
-    
-    // 模擬「按任意鍵繼續」：當有鍵盤事件發生時，自動跳轉
-    window.addEventListener('keydown', () => {
-      window.location.href = "https://devhys.com";
+
+    function goHome(){
+      window.location.href = HOME_URL;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("fall");
+      const link = document.getElementById("homeLink");
+      if (link) link.href = HOME_URL;
+
+      // 生成背景 token
+      const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduced && container){
+        // 初始鋪一些
+        for (let i=0;i<28;i++) addToken(container);
+        // 之後持續補上
+        const timer = setInterval(() => addToken(container), 260);
+
+        // 若分頁隱藏就暫停（更省資源）
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) clearInterval(timer);
+        }, { once: true });
+      }
+
+      // 按任意鍵 / 點卡片 回首頁
+      window.addEventListener("keydown", goHome, { once: true });
+      document.getElementById("card").addEventListener("click", goHome);
+      document.getElementById("btnHome").addEventListener("click", (e) => {
+        e.preventDefault();
+        goHome();
+      });
     });
   </script>
+</head>
+
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="fall" id="fall" aria-hidden="true"></div>
+
+  <main class="card" id="card" role="status" aria-live="polite">
+    <div class="top">
+      <div>
+        <p class="code">404</p>
+        <div class="msg">
+          你要找的頁面像雪一樣融化不見了。<br/>
+          可能是網址打錯、頁面已搬家，或暫時無法使用。
+        </div>
+
+        <div class="hint">
+          <span>按任意鍵返回</span>
+          <span class="kbd">Any key</span>
+          <span>或點擊下方按鈕：</span>
+        </div>
+
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn" id="btnHome" href="https://devhys.com" aria-label="返回 Harrison's 首頁">
+            <span aria-hidden="true">🏠</span>
+            <span>回到 Harrison's</span>
+          </a>
+          <a class="btn" id="homeLink" href="https://devhys.com">
+            <span aria-hidden="true">↩︎</span>
+            <span>https://devhys.com</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="badge" aria-hidden="true">❄️</div>
+    </div>
+
+    <div class="frost">Tip：點擊卡片也可返回</div>
+  </main>
 </body>
 </html>
-
