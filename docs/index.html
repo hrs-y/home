@@ -1,65 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <title>Redirecting...</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="refresh" content="5;url=https://hrs-y.github.io/home/main.html" />
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-        .redirect-message {
-            text-align: center;
-        }
-        .spinner {
-            margin: 20px auto;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #ccc;
-            border-top-color: #007BFF;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
-    <script>
-        /**
-         * 判斷是否為移動設備
-         * @returns {boolean} 是否為移動設備
-         */
-        function isMobileDevice() {
-            const ua = navigator.userAgent || navigator.vendor || window.opera;
-            // 常見的移動設備用戶代理標識符
-            return (/android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua.toLowerCase()));
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>正在跳轉…</title>
 
-        /**
-         * 在頁面加載完成後執行重定向
-         */
-        window.onload = function() {
-            if (isMobileDevice()) {
-                window.location.href = "https://hrs-y.github.io/home/main.html";
-            } else {
-                window.location.href = "https://hrs-y.github.io/home/main.html";
-            }
-        };
-    </script>
+  <!-- 後備：若 JS 被擋，仍可在幾秒後跳轉 -->
+  <meta http-equiv="refresh" content="4;url=https://hrs-y.github.io/home/main.html" />
+
+  <style>
+    :root{
+      --bg1:#061a33;
+      --bg2:#0b3a6d;
+      --ice:#bfe3ff;
+      --glass: rgba(255,255,255,.14);
+      --glass2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.22);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 24px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                   "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Roboto, Arial, sans-serif;
+      color: var(--text);
+      overflow:hidden;
+      background:
+        radial-gradient(1200px 700px at 20% 18%, rgba(170,220,255,.22), transparent 55%),
+        radial-gradient(900px 600px at 80% 30%, rgba(120,200,255,.18), transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      display:grid;
+      place-items:center;
+    }
+
+    /* 玻璃光斑（背景冰霧） */
+    .glow {
+      position: fixed;
+      inset: -20%;
+      pointer-events:none;
+      filter: blur(30px);
+      opacity:.85;
+      background:
+        radial-gradient(350px 280px at 15% 70%, rgba(170,220,255,.22), transparent 60%),
+        radial-gradient(420px 320px at 70% 30%, rgba(255,255,255,.14), transparent 60%),
+        radial-gradient(320px 260px at 85% 80%, rgba(120,200,255,.18), transparent 62%);
+      animation: drift 10s ease-in-out infinite alternate;
+    }
+    @keyframes drift{
+      from{ transform: translate3d(-1.5%, -1%, 0) scale(1.02); }
+      to  { transform: translate3d( 1.5%,  1%, 0) scale(1.06); }
+    }
+
+    /* 雪花容器 */
+    .snow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .flake{
+      position:absolute;
+      top:-10vh;
+      left: calc(var(--x) * 1vw);
+      width: var(--s);
+      height: var(--s);
+      opacity: var(--o);
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.25) 60%, transparent 70%);
+      transform: translateZ(0);
+      animation:
+        fall var(--d) linear infinite,
+        sway calc(var(--d) * .55) ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,.15));
+    }
+    @keyframes fall{
+      to { transform: translate3d(0, 120vh, 0); }
+    }
+    @keyframes sway{
+      from { margin-left: -18px; }
+      to   { margin-left:  18px; }
+    }
+
+    /* 主卡片：玻璃擬態 */
+    .card{
+      position:relative;
+      z-index: 1;
+      width: min(520px, calc(100vw - 32px));
+      padding: 28px 26px 22px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--glass), var(--glass2));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+    }
+
+    .header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom: 10px;
+    }
+
+    .badge{
+      width:46px; height:46px;
+      display:grid; place-items:center;
+      border-radius: 16px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      backdrop-filter: blur(12px);
+    }
+
+    .title{
+      font-size: 18px;
+      letter-spacing: .2px;
+      margin: 0;
+    }
+    .subtitle{
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    /* 冬季感 spinner：冰藍光圈 */
+    .spinner{
+      margin: 18px 0 10px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 3px solid rgba(255,255,255,.20);
+      border-top-color: rgba(191,227,255,.95);
+      border-right-color: rgba(191,227,255,.55);
+      animation: spin 1s linear infinite;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.08) inset,
+        0 0 22px rgba(191,227,255,.25);
+    }
+    @keyframes spin{ to { transform: rotate(360deg); } }
+
+    /* 倒數進度條 */
+    .progress{
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      margin-top: 14px;
+    }
+    .bar{
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(191,227,255,.18), rgba(191,227,255,.75), rgba(255,255,255,.35));
+      border-radius: 999px;
+      box-shadow: 0 0 18px rgba(191,227,255,.25);
+      animation: fill 3s linear forwards;
+    }
+    @keyframes fill{ to{ width:100%; } }
+
+    .footer{
+      margin-top: 14px;
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    a{
+      color: rgba(191,227,255,.95);
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(191,227,255,.55);
+    }
+    a:hover{ border-bottom-style: solid; }
+
+    /* 無動畫偏好 */
+    @media (prefers-reduced-motion: reduce){
+      .flake, .spinner, .glow, .bar{ animation: none !important; }
+    }
+  </style>
+
+  <script>
+    const TARGET_URL = "https://hrs-y.github.io/home/main.html";
+    const REDIRECT_MS = 3000;
+
+    function startRedirect(){
+      // 倒數顯示
+      const counter = document.getElementById("counter");
+      const start = Date.now();
+
+      const tick = () => {
+        const left = Math.max(0, REDIRECT_MS - (Date.now() - start));
+        const sec = Math.ceil(left / 1000);
+        if (counter) counter.textContent = String(sec);
+        if (left <= 0) window.location.replace(TARGET_URL);
+        else requestAnimationFrame(tick);
+      };
+      tick();
+    }
+
+    function makeSnow(count = 36){
+      const snow = document.querySelector(".snow");
+      if (!snow) return;
+
+      for (let i = 0; i < count; i++){
+        const f = document.createElement("div");
+        f.className = "flake";
+        // 隨機參數（避免整齊感）
+        const x = Math.random() * 100;              // vw
+        const s = (Math.random() * 3 + 2).toFixed(2) + "px";
+        const o = (Math.random() * 0.55 + 0.25).toFixed(2);
+        const d = (Math.random() * 6 + 6).toFixed(2) + "s"; // 6~12s
+        const delay = (-Math.random() * 10).toFixed(2) + "s";
+
+        f.style.setProperty("--x", x.toFixed(2));
+        f.style.setProperty("--s", s);
+        f.style.setProperty("--o", o);
+        f.style.setProperty("--d", d);
+        f.style.animationDelay = delay;
+
+        snow.appendChild(f);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      // 產生雪花
+      makeSnow(40);
+
+      // 更新手動連結
+      const link = document.getElementById("manualLink");
+      if (link) link.href = TARGET_URL;
+
+      // 開始跳轉
+      startRedirect();
+
+      // 保險：即使 requestAnimationFrame 被阻擋也能跳
+      setTimeout(() => window.location.replace(TARGET_URL), REDIRECT_MS + 200);
+    });
+  </script>
 </head>
+
 <body>
-    <div class="redirect-message">
-        <div class="spinner"></div>
-        <p>正在檢測設備並跳轉，請稍候...</p>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="snow" aria-hidden="true"></div>
+
+  <main class="card" role="status" aria-live="polite">
+    <div class="header">
+      <div class="badge" aria-hidden="true">❄️</div>
+      <div>
+        <h1 class="title">正在前往主頁</h1>
+        <p class="subtitle">
+          正在檢測環境並跳轉，約 <strong><span id="counter">3</span></strong> 秒後自動前往。
+        </p>
+      </div>
     </div>
+
+    <div class="spinner" aria-hidden="true"></div>
+
+    <div class="progress" aria-hidden="true">
+      <div class="bar"></div>
+    </div>
+
+    <div class="footer">
+      <span>若未自動跳轉：</span>
+      <a id="manualLink" href="https://hrs-y.github.io/home/main.html">點此立即前往</a>
+    </div>
+
+    <noscript>
+      <p class="subtitle" style="margin-top:12px">
+        你的瀏覽器目前停用 JavaScript，請使用上方連結手動前往。
+      </p>
+    </noscript>
+  </main>
 </body>
 </html>
-
-
